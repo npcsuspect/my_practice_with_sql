@@ -45,7 +45,7 @@ SELECT
     ROUND(SUM(profit), 2) AS total_profit
 FROM superstore;
 ```
-
+![Query_6](https://github.com/npcsuspect/my_practice_with_sql/blob/main/Images/Query_6.jpg)
 ```
 --GROUP BY, category segmentation, statistics
 SELECT 
@@ -57,7 +57,7 @@ FROM superstore
 GROUP BY category
 ORDER BY total_sales DESC;
 ```
-
+![Query_7](https://github.com/npcsuspect/my_practice_with_sql/blob/main/Images/Query_7.jpg)
 **The results show that Technology is the leader in sales. Furniture is unprofitable**
 ```
 --Data Segmentation
@@ -72,6 +72,46 @@ WHERE segment = 'Consumer'       -- 1. Filtration
 GROUP BY region, segment       -- 2. Grouping
 ORDER BY total_sales DESC;         -- 3. Sorting
 ```
-
+![Query_8](https://github.com/npcsuspect/my_practice_with_sql/blob/main/Images/query_8.jpg)
 **The results show that the Western region is the best in terms of sales.
 The region with the lowest margin is Central.**
+```
+--Determine the impact of discounts on sales and profits
+SEECT 
+    ROUND(AVG(sales), 0) AS avg_sales_high_discount,
+    ROUND(AVG(profit), 0) AS avg_profit_high_discount
+FROM superstore
+WHERE discount > 0.2;
+
+--Compare with all orders
+SELECT 
+    ROUND(AVG("Sales"), 0) AS avg_sales_all,
+    ROUND(AVG("Profit"), 0) AS avg_profit_all
+FROM superstore;  --without filter
+```
+
+**With discounts >20%, the check is slightly higher (+13%), but profits fall 3.3 times and become unprofitable!**
+```
+--Convert the data and determine sales by month.
+SELECT 
+    TO_CHAR(order_date::DATE, 'Mon YYYY') AS month_year,  
+    ROUND(SUM(sales), 0) AS monthly_sales
+FROM superstore
+GROUP BY 
+    TO_CHAR(order_date::DATE, 'YYYY-MM'), 
+    TO_CHAR(order_date::DATE, 'Mon YYYY')
+ORDER BY MIN(order_date::DATE); 
+```
+
+```
+--Find the top 5 products by profit
+WITH ranked_products AS (
+    SELECT 
+        product_name,
+        ROUND(SUM(profit), 2) AS total_profit,
+        ROW_NUMBER() OVER (ORDER BY SUM(profit) DESC) AS profit_rank
+    FROM superstore
+    GROUP BY 1
+)
+SELECT * FROM ranked_products WHERE profit_rank <= 5;
+```
