@@ -89,7 +89,8 @@ SELECT
     ROUND(AVG("Profit"), 0) AS avg_profit_all
 FROM superstore;  --without filter
 ```
-
+![Query_9](https://github.com/npcsuspect/my_practice_with_sql/blob/main/Images/Query_9.jpg)
+![Query_9.](https://github.com/npcsuspect/my_practice_with_sql/blob/main/Images/Query_9..jpg)
 **With discounts >20%, the check is slightly higher (+13%), but profits fall 3.3 times and become unprofitable!**
 ```
 --Convert the data and determine sales by month.
@@ -102,9 +103,9 @@ GROUP BY
     TO_CHAR(order_date::DATE, 'Mon YYYY')
 ORDER BY MIN(order_date::DATE); 
 ```
-
+![Query_10](https://github.com/npcsuspect/my_practice_with_sql/blob/main/Images/Query_10.jpg)
 ```
---Find the top 5 products by profit
+--Find the Top 5 products by profit
 WITH ranked_products AS (
     SELECT 
         product_name,
@@ -115,3 +116,4 @@ WITH ranked_products AS (
 )
 SELECT * FROM ranked_products WHERE profit_rank <= 5;
 ```
+![Query_11.](https://github.com/npcsuspect/my_practice_with_sql/blob/main/Images/Query_11..jpg)
