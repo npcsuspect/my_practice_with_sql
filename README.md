@@ -135,6 +135,7 @@ FROM customer_orders
 GROUP BY order_count
 ORDER BY order_count DESC;
 ```
+![Query_12](https://github.com/npcsuspect/my_practice_with_sql/blob/main/Images/Query_12.jpg)
 **We have the following result:**
 - 1 customer is a VIP because he made 17 orders
 - 20% of customers make 10 or more orders
