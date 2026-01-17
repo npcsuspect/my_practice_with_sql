@@ -117,3 +117,25 @@ WITH ranked_products AS (
 SELECT * FROM ranked_products WHERE profit_rank <= 5;
 ```
 ![Query_11.](https://github.com/npcsuspect/my_practice_with_sql/blob/main/Images/Query_11..jpg)
+```
+--segment data and conduct RFM analysis
+WITH customer_orders AS (
+    SELECT 
+        customer_id,
+        COUNT(DISTINCT order_id) AS order_count,
+        ROUND(SUM(sales), 2) AS total_spent
+    FROM superstore
+    GROUP BY customer_id
+)
+SELECT 
+    order_count,
+    COUNT(*) AS customers_with_n_orders,
+    ROUND(SUM(total_spent), 0) AS amount_of_orders
+FROM customer_orders
+GROUP BY order_count
+ORDER BY order_count DESC;
+```
+**We have the following result:**
+- 1 customer is a VIP because he made 17 orders
+- 20% of customers make 10 or more orders
+- The largest amount of purchases from customers who make 5 or 7 orders
